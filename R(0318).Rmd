@@ -226,5 +226,32 @@ list(
 print(`小明108學年課表B`)
 ```
 
+```{r}
+# list含兩個lists, 子層list又各含兩個vectors
+`小明108學年課表C` <- list(
+  `108學年第1學期`=list(
+    semster=c("108-1"), 
+    course=c("高級會計學", "高等統計學")
+       ),
+  `108學年第2學期`=list(
+    semster=c("108-2"),
+    coursec=("食在拉丁美洲")
+  )
+)
+print(`小明108學年課表C`)
+```
 
+```{r}
+commit <- list(
+  author = list("Martin老師", 
+                "mtlin@gm.ntpu.edu.tw", 
+                ymd_hms('2020-03-25T07:17:40Z')),
+  committer = list("emilyluckey",
+                   "emily007@gmail.com", 
+                   ymd_hms('2020-03-26T08:18:40Z')),
+
+  message = c("update")
+)
+print(commit)
+```
 
