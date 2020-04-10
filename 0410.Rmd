@@ -169,8 +169,11 @@ listExample <-
 ```
 
 ```{r}
-get1 <- listExample[["學期"]]
-get2 <- listExample["學期"]
+get1 <- listExample[["學期"]]; get1
+```
+
+```{r}
+get2 <- listExample["學期"]; get2
 ```
 
 ```{r}
