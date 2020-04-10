@@ -92,11 +92,18 @@ str(taipeiNightMarkets[c(T,F,F,F,F,F,T,T,F,F,F,T,F,F)], max.level = 1)
 
 
 
-c(T,F,F,F,F,F,T,T,F,F,F,T,F,F) -> selectNightMarkets
-str(taipeiNightMarkets[selectNightMarkets], max.level = 1)
+c(T,F,F,F,F,F,T,T,F,F,F,T,F,F) -> selectedMarkets
+str(taipeiNightMarkets[selectedMarkets], max.level = 1)
 ```
 
 ```{r}
+selectedMarkets <-rep(F, 14)
+print(selectedMarkets)
+selectedMarkets[c(1, 7, 8, 12)] <-TRUE
+print(selectedMarkets)
+```
 
+```{r}
+str(taipeiNightMarkets[selectedMarkets], max.level = 1)
 ```
 
