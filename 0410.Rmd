@@ -166,14 +166,19 @@ listExample <-
       )
     )
   )
+str(listExample)
 ```
 
 ```{r}
-get1 <- listExample[["學期"]]; get1
+get1 <- listExample[["學期"]]   #拿出來
+get1 <- listExample$`學期`   #拿出來
+str(get1)
+
 ```
 
 ```{r}
-get2 <- listExample["學期"]; get2
+get2 <- listExample["學期"]      #只留下
+str(get2)
 ```
 
 ```{r}
@@ -182,4 +187,64 @@ get2 <- listExample["學期"]; get2
 get1$`108-1`[[1]]$teacher
 get2$`學期`$`108-1`[[1]]$teacher
 ```
+
+```{r}
+get1 <- listExample[["學期"]]
+get1$`108-1` ->get1_layer1
+get1_layer1[[1]] ->get1_layer2
+get1_layer2$teacher
+
+listExample[["學期"]]$`108-1`[[1]]$teacher
+```
+
+```{r}
+get2 <- listExample["學期"]
+get2_layer1 <- get2[[1]]
+get2_layer2 <- get2_layer1$`108-1`
+get2_layer3 <- get2_layer2[[1]]
+get2_layer3$teacher
+
+listExample["學期"][[1]]$`108-1`[[1]]$teacher
+```
+
+```{r}
+vector1 <- c(a=1, b=3, c=4)
+vector1[["a"]]
+vector1[c("a", "c")]
+#vector1$a:無法
+
+list1 <-list(a=1, b=3, c=4)
+list1[["a"]]
+list1[c("a", "c")]
+list1$a
+```
+
+```{r}
+today <- list(
+  list("台北市",c(highest_temp = 25),c(lowest_temp = 18)),
+  list("新北市",c(highest_temp = 24),c(lowest_temp = 15)))
+
+str(today)
+```
+
+```{r}
+today[[2]][[2]]
+```
+
+```{r}
+today <- list(
+  list("台北市",
+       highest_temp = 25,
+       lowest_temp = 18),
+  list("新北市",
+       highest_temp = 24,
+       lowest_temp = 15))
+
+str(today)
+```
+
+```{r}
+today[[2]]$highest_temp
+```
+
 
