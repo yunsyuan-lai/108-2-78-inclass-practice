@@ -128,9 +128,9 @@ str(transcript100to103)
 
 ```{r}
 # 各學屆2年級人數
-table(transcript100to103$學屆)
+table(transcript100to103$`學屆`)
 # 各學屆2年級成績大於85年數
-table(transcript100to103$學屆[pick_above85])
+table(transcript100to103$`學屆`[pick_above85])
 ```
 
 ```{r}
@@ -159,7 +159,7 @@ str(exchangeRate)
 # 只要1998年1月（含）以後的
 library(lubridate)
 pick_after98_01 <-
-  exchangeRate$期間 >= ymd("1998-01-01")
+  exchangeRate$`期間` >= ymd("1998-01-01")
 ```
 
 ```{r}
@@ -227,5 +227,158 @@ list_victimAges_female$`年齡層` <-     ordered(list_victimAges_female$`年齡
 ```{r}
 pick_above30 <- list_victimAges_female$`年齡層` >= "30_39歲"
 sum(list_victimAges_female$`數目`[pick_above30], na.rm = T)
+```
+
+```{r}
+print(example[c("name","bloodType")])
+
+pick_bloodB <- example$bloodType == "B"
+example$name[pick_bloodB]
+```
+
+```{r}
+sequenceNums <- c(11, 6, 8, 11, 12, 11, 3, 7, 10, 8)
+
+pick_evens <- (sequenceNums %% 2) == 0
+sequenceNums[pick_evens]
+```
+
+```{r}
+x <- c(1,5,8)
+y <- c(5,8)
+
+# x裡的元素值是不是屬於y集合
+x %in% y
+```
+
+```{r}
+print(example[c("name","residence")])
+
+set_TaipeiMetro <- c("Taipei","New Taipei")
+pick_fromTaipeiMetro <- example$residence %in% set_TaipeiMetro
+example$name[pick_fromTaipeiMetro]
+```
+
+```{r}
+str(transcript100to103)
+```
+
+```{r}
+unique(transcript100to103$`學院`)
+```
+
+```{r}
+set_LawBussiness <- c("法學院", "商學院")
+pick_LawBussiness <- transcript100to103$`學院` %in% set_LawBussiness
+transcript100to103$`學院`[pick_LawBussiness]
+```
+
+```{r}
+pick_not_fromTaipeiMetro <- ! pick_fromTaipeiMetro
+# 或
+pick_not_fromTaipeiMetro <- !(example$residence %in% set_TaipeiMetro) # (..) 裡面會先運算完才做外面!的處理
+```
+
+```{r}
+print(example[c("name","residence")])
+
+example$name[pick_fromTaipeiMetro]
+example$name[pick_not_fromTaipeiMetro]
+```
+
+```{r}
+x2 <- c(1,NA,10)
+y2 <- c(-1,NA,20)
+
+x3 <- c(NA,"小花")
+y3 <- c(NA,"小華")
+```
+
+```{r}
+x2
+is.na(x2)
+```
+
+```{r}
+print(example[c("name","weight")])
+
+pick_na <- is.na(example$weight)
+example$name[pick_na]
+```
+
+```{r}
+```
+
+
+```{r}
+0/0
+#Not a Number
+```
+
+```{r}
+list_victimAges_female$`數目` <- as.integer(list_victimAges_female$`數目`)
+```
+
+```{r}
+pick_na <- is.na(list_victimAges_female$`數目`)
+sum(pick_na)
+```
+
+```{r}
+print(example[c("name","hobby")])
+
+pick_loveFood <- stringr::str_detect(example$hobby,"美食")
+example$name[pick_loveFood]
+```
+
+```{r}
+jsonlite::fromJSON("https://data.ntpc.gov.tw/od/data/api/EDC3AD26-8AE7-4916-A00B-BC6048D19BF8?$format=json") ->
+  garbageRoutes
+```
+
+```{r}
+#  1 用typeof()函數查詢電腦實質上如何看待garbageRoutes。
+typeof(garbageRoutes)  
+#  2 用class()函數查詢電腦把它能進行的操作運算歸屬於哪一類型。
+class(garbageRoutes)
+```
+
+```{r}
+```
+
+
+```{r}
+# 由linename元素判斷垃圾車有幾條路線。
+factor(garbageRoutes$linename) -> garbageRoutes$linename
+levels(garbageRoutes$linename)
+```
+
+```{r}
+  # 由linename創造： 可篩選出下午路線的「要/不要」向量pick_afternoonRoutes。
+pick_afternoonRoutes <-
+  stringr::str_detect(
+    garbageRoutes$linename,
+    "下午"
+  )
+garbageRoutes$linename[pick_afternoonRoutes]
+```
+
+```{r}
+?str_detect
+```
+
+```{r}
+CDC_chatbox <- readr::read_csv("http://od.cdc.gov.tw/pr/CDC_chatbox.csv")
+```
+
+```{r}
+str(CDC_chatbox)
+```
+
+
+```{r}
+library(stringr)
+pick_pneumonia <- str_detect(CDC_chatbox$Question, "肺炎") 
+CDC_chatbox$Question[pick_pneumonia]
 ```
 
