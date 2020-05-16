@@ -170,3 +170,165 @@ covid19$`年齡層` <-
 levels(covid19$`年齡層`)
 ```
 
+```{r}
+factor1 <- factor(
+  c("A","A","C","A","D","F","D","D")
+)
+factor1
+
+levels(factor1) <- c("優","佳","尚可","普")
+
+factor1
+```
+
+```{r}
+levels(factor1)[[1]] <- "Excellent"
+levels(factor1)[c(3,4)] <- c("C","D")
+factor1
+```
+
+```{r}
+factor1 <- factor(c("新北市","台北市","台中市","彰化市","基隆市","苗栗縣"))
+factor1
+```
+
+```{r}
+levels(factor1) <- c("中部","北部","中部","北部","北部","中部")
+factor1
+```
+
+```{r}
+factor1 <- factor(c("0-4歲","5-9歲","10歲以上","0-4歲","5-9歲","5-9歲","10歲以上"))
+factor1
+```
+
+```{r}
+levels(factor1) <- c("0-9歲","10歲以上","0-9歲")
+factor1
+```
+
+```{r}
+covid19$`地區` <- covid19$`縣市`
+levels(covid19$`地區`)
+currentLevels <- levels(covid19$`地區`)
+
+# 整併
+north_regex <- "宜蘭縣|基隆市|[台臺]北市|新北市|桃園市|新竹市|新竹縣"
+middle_regex <- "苗栗縣|[台臺]中市|彰化縣|南投縣|雲林縣"
+south_regex <-
+  "嘉義市|嘉義縣|[台臺]南[縣市]|高雄市|屏東縣|澎湖縣"
+east_regex <- "花蓮縣|台東縣"
+
+currentLevels <- str_replace(currentLevels, 
+            north_regex, "北部")
+currentLevels <- str_replace(currentLevels, 
+            middle_regex, "中部")
+currentLevels <- str_replace(currentLevels, 
+            south_regex, "南部")
+newLevels <- str_replace(currentLevels, 
+            east_regex, "東部")
+
+
+levels(covid19$`地區`) <- newLevels
+covid19$`地區`
+```
+
+```{r}
+levels(covid19$`年齡層`)
+
+# 創造10歲間距的所有可能
+start <- seq(5, 55, by=10) # 由5到55，每個值差10的數值向量
+end <- seq(14, 64, by=10)
+middleLevels <- 
+  rep(
+    paste0(start,"-",end), 
+    each=2) # 每個新間距要2個
+newLevels <- c("4", middleLevels, "65+", "65+")
+
+levels(covid19$`年齡層`) <- newLevels
+covid19$`年齡層`
+```
+
+```{r}
+factor2 <- 
+  factor(c("好","好","普通","普通", "好"))
+levels(factor2)
+```
+
+```{r}
+factor2[[6]] <- "差"
+factor2 # 元素6變NA
+```
+
+```{r}
+factor2 <- 
+  factor(c("好","好","普通","普通", "好"))
+levels(factor2)
+
+# 先擴大levels
+levels(factor2) <- c(levels(factor2), "差")
+levels(factor2)
+factor2[[6]] <- "差"
+factor2
+```
+
+```{r}
+# non factor
+char1 <- c("小明","小美")
+char2 <- c("大雄","技安")
+c(char1, char2)
+
+# factor
+factor1 <- factor(c("好", "壞", "壞"))
+factor2 <- factor(c("壞", "好", "好"))
+c(factor1, factor2)
+```
+
+```{r}
+factor1[4:6] <- factor2
+factor1
+```
+
+```{r}
+library(forcats)
+fct_c(factor1, factor2)
+```
+
+```{r}
+levels(covid19$`性別`) <- c("Male", "Female")
+levels(covid19$`性別`)
+```
+
+```{r}
+jsonlite::fromJSON("https://data.ntpc.gov.tw/od/data/api/EDC3AD26-8AE7-4916-A00B-BC6048D19BF8?$format=json") ->
+  garbageRoutes
+```
+
+```{r}
+levels(factor(garbageRoutes$linename))
+library(stringr)
+garbageRoutes$route <- 
+  factor(str_extract(garbageRoutes$linename, "[:alnum:]+路線"))
+levels(garbageRoutes$route)
+```
+
+```{r}
+newLevels <- names(sort(table(garbageRoutes$route)))
+garbageRoutes$route <- factor(garbageRoutes$route, newLevels)
+levels(garbageRoutes$route)
+```
+
+```{r}
+garbageRoutes$time <- 
+  str_extract(garbageRoutes$linename, "(?<=線)[:graph:]+")
+garbageRoutes$time[is.na(garbageRoutes$time)] <- "全天"
+garbageRoutes$time <- factor(garbageRoutes$time)
+levels(garbageRoutes$time)
+
+```
+
+```{r}
+levels(garbageRoutes$time)[[3]] <- "下午"
+levels(garbageRoutes$time)
+```
+
